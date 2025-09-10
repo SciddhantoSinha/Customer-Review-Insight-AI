@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<style>
+/* Home Page Styles */
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90vh;
+    padding: 50px;
+    background: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+    position: relative;
+    color: #fff;
+}
+
+.home-container::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 1;
+}
+
+.home-left, .home-right {
+    z-index: 2;
+    max-width: 45%;
+}
+
+.home-left h1, .home-left p, .home-right h2, .home-right .btn {
+    color: #fff; /* Ensure all text is white */
+}
+
+.home-left h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+.home-left p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.home-img {
+    margin-top: 20px;
+    width: 250px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Buttons */
+.home-right h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: aqua;
+}
+
+.home-right h3 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    color: black;
+}
+
+.home-right .btn {
+    display: block;
+    width: 220px;
+    margin-bottom: 15px;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.home-right .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.home-right .btn.secondary {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+@media screen and (max-width: 900px) {
+    .home-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .home-left, .home-right {
+        max-width: 90%;
+    }
+    .home-img {
+        margin: 20px auto;
+    }
+}
+</style>
+
+<div class="home-container">
+  <!-- Left side: Text + Image -->
+  <div class="home-left" data-aos="fade-right" data-aos-duration="1500">
+    <h1>Welcome to ReviewX</h1>
+    <p>
+      Collect, analyze, and manage reviews efficiently.<br><br>
+      Admins can view insights and manage users,<br>
+      while users can register, login, and share feedback easily.
+    </p>
+    <img src="https://cdn-icons-png.flaticon.com/512/3565/3565418.png" alt="Reviews" class="home-img">
+  </div>
+
+  <!-- Right side: Buttons -->
+  <div class="home-right" data-aos="fade-left" data-aos-duration="1500">
+    <h2>Login Portal</h2>
+    <h3>Please choose one 👇</h3>
+    <a href="{{ url_for('admin_login') }}" class="btn">Admin Login</a>
+    <a href="{{ url_for('user_login') }}" class="btn">User Login</a>
+    <a href="{{ url_for('register') }}" class="btn secondary">Register</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,
+    easing: 'ease-in-out'
+  });
+</script>
+{% endblock %}

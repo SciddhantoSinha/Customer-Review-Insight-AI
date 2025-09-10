@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://images.unsplash.com/photo-1581092795360-34d19d3b08e5?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    backdrop-filter: blur(5px);
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+}
+
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    position: relative;
+    z-index: 2;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #00ffff;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+.error-msg {
+    color: #ff4b2b;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-msg span {
+    margin-right: 5px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    border: none;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0,255,255,0.5);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,0,255,0.7);
+}
+
+.footer-img {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer-img img {
+    width: 100px;
+    border-radius: 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Side hacker image */
+.side-img {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    max-width: 250px;
+    opacity: 0.9;
+    z-index: 1;
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 0.9; transform: translateX(0); }
+}
+
+@media screen and (max-width: 900px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+    .side-img {
+        position: static;
+        margin-top: 30px;
+        max-width: 200px;
+    }
+}
+</style>
+
+<div class="login-wrapper" data-aos="fade-up">
+  <div class="login-container" data-aos="zoom-in" data-aos-duration="1500">
+    <h2>Admin Login</h2>
+    <form method="POST" class="login-form" id="adminLoginForm" novalidate>
+      
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" name="username" id="username">
+        <div class="error-msg" id="usernameError"><span>❌</span>Username is required</div>
+      </div>
+      
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="password" id="password">
+        <div class="error-msg" id="passwordError"><span>❌</span>Password is required</div>
+      </div>
+      
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+  
+  <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Hacker Agent" class="side-img">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init();
+
+  const form = document.getElementById('adminLoginForm');
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
+  const usernameError = document.getElementById('usernameError');
+  const passwordError = document.getElementById('passwordError');
+
+  form.addEventListener('submit', function(e) {
+    let valid = true;
+
+    if (username.value.trim() === '') {
+      usernameError.style.display = 'flex';
+      valid = false;
+    } else {
+      usernameError.style.display = 'none';
+    }
+
+    if (password.value.trim() === '') {
+      passwordError.style.display = 'flex';
+      valid = false;
+    } else {
+      passwordError.style.display = 'none';
+    }
+
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+
+  username.addEventListener('input', () => {
+    if (username.value.trim() !== '') usernameError.style.display = 'none';
+  });
+
+  password.addEventListener('input', () => {
+    if (password.value.trim() !== '') passwordError.style.display = 'none';
+  });
+</script>
+{% endblock %}

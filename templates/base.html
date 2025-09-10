@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Review App{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .logout-btn { position: absolute; top: 15px; right: 15px; }
+    .alert-container {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      z-index: 1050;
+      min-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+    {% if request.endpoint != 'index' %}
+      <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
+    {% endif %}
+
+    {% if session.get("user") and request.endpoint == 'dashboard' %}
+      <a class="btn btn-outline-danger logout-btn" href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+  </nav>
+
+  <div class="container mt-3">
+    {% block content %}{% endblock %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

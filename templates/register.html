@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>User Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f") no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Poppins", sans-serif;
+        }
+        .card {
+            width: 420px;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0px 6px 30px rgba(0,0,0,0.35);
+            background: rgba(255,255,255,0.97);
+            animation: fadeIn 0.9s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .password-requirements { font-size: 0.9rem; margin-top: 6px; padding-left: 18px; }
+        .password-requirements li { color: #d9534f; }
+        .password-requirements li.valid { color: #28a745; }
+        .flash {
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3 class="text-center mb-3">User Registration</h3>
+
+        <!-- REGISTER FORM -->
+        <form id="registerForm" method="POST" action="{{ url_for('register') }}" novalidate>
+            <!-- USERNAME (added) -->
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required>
+                <div class="invalid-feedback">Please enter a username.</div>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="you@example.com" required>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required>
+                <ul class="password-requirements" id="passwordRequirements">
+                    <li id="length">Minimum 8 characters</li>
+                    <li id="uppercase">At least 1 uppercase letter</li>
+                    <li id="lowercase">At least 1 lowercase letter</li>
+                    <li id="number">At least 1 number</li>
+                    <li id="special">At least 1 special character (!@#$%^&*())</li>
+                    <li id="noSpace">No spaces</li>
+                </ul>
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirm_password" class="form-control" placeholder="Re-type password" required>
+                <div class="invalid-feedback" id="confirmError">Passwords do not match.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+
+        <p class="text-center mt-3">Already have an account? <a href="{{ url_for('user_login') }}">Login</a></p>
+    </div>
+
+    <script>
+        // Elements
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const registerForm = document.getElementById('registerForm');
+
+        const requirements = {
+            length: document.getElementById('length'),
+            uppercase: document.getElementById('uppercase'),
+            lowercase: document.getElementById('lowercase'),
+            number: document.getElementById('number'),
+            special: document.getElementById('special'),
+            noSpace: document.getElementById('noSpace')
+        };
+
+        // Live password requirement checks
+        password.addEventListener('input', () => {
+            const val = password.value;
+            requirements.length.classList.toggle('valid', val.length >= 8);
+            requirements.uppercase.classList.toggle('valid', /[A-Z]/.test(val));
+            requirements.lowercase.classList.toggle('valid', /[a-z]/.test(val));
+            requirements.number.classList.toggle('valid', /\d/.test(val));
+            requirements.special.classList.toggle('valid', /[!@#$%^&*()]/.test(val));
+            requirements.noSpace.classList.toggle('valid', !/\s/.test(val));
+        });
+
+        // Form submit validation (client side)
+        registerForm.addEventListener('submit', (e) => {
+            // use HTML5 validity for username/email simple checks
+            let formValid = true;
+
+            // check username & email required (simple)
+            if (!document.getElementById('username').value.trim()) {
+                document.getElementById('username').classList.add('is-invalid');
+                formValid = false;
+            } else {
+                document.getElementById('username').classList.remove('is-invalid');
+            }
+            if (!document.getElementById('email').checkValidity()) {
+                document.getElementById('email').classList.add('is-invalid');
+                formValid = false;
+            } else {
+                document.getElementById('email').classList.remove('is-invalid');
+            }
+
+            // password checks
+            const val = password.value;
+            const passOk = (
+                val.length >= 8 &&
+                /[A-Z]/.test(val) &&
+                /[a-z]/.test(val) &&
+                /\d/.test(val) &&
+                /[!@#$%^&*()]/.test(val) &&
+                !/\s/.test(val)
+            );
+
+            if (!passOk) {
+                password.classList.add('is-invalid');
+                formValid = false;
+            } else {
+                password.classList.remove('is-invalid');
+            }
+
+            // confirm password
+            if (val !== confirmPassword.value) {
+                confirmPassword.classList.add('is-invalid');
+                document.getElementById('confirmError').style.display = 'block';
+                formValid = false;
+            } else {
+                confirmPassword.classList.remove('is-invalid');
+                document.getElementById('confirmError').style.display = 'none';
+            }
+
+            if (!formValid) {
+                e.preventDefault(); // stop submission if invalid
+                return false;
+            }
+
+            // allow default submit (POST -> /register)
+            return true;
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

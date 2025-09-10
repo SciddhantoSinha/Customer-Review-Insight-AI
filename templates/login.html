@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: url("/static/hacker-bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Left Navbar */
+    .sidebar {
+      width: 80px;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      backdrop-filter: blur(10px);
+      box-shadow: 3px 0 15px rgba(0, 255, 136, 0.4);
+      animation: slideNav 1s ease-in-out;
+    }
+
+    .sidebar a {
+      color: #00ff88;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 10px #00bfff;
+      transform: scale(1.1);
+    }
+
+    /* Login Box */
+    .login-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
+      width: 380px;
+      color: #fff;
+      margin: auto auto auto 120px; /* pushes to left after navbar */
+      animation: slideIn 1s ease-in-out;
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: bold;
+      color: #00ff88;
+      text-shadow: 0 0 12px rgba(0, 255, 136, 0.8);
+      animation: glowText 2s infinite alternate;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 10px #00ff88;
+      outline: none;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #00ff88, #00bfff);
+      border: none;
+      border-radius: 12px;
+      padding: 10px;
+      font-weight: bold;
+      color: black;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, #00bfff, #00ff88);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 255, 136, 0.5);
+    }
+
+    .register-link {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .register-link a {
+      color: #00ff88;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register-link a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 8px #00bfff;
+    }
+
+    .error {
+      color: #ff4d4d;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 12px #00ff88, 0 0 24px #00ff88; }
+      to { text-shadow: 0 0 24px #00bfff, 0 0 48px #00bfff; }
+    }
+
+    @keyframes slideNav {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navbar -->
+  <div class="sidebar">
+    <a href="{{ url_for('index') }}">🏠 Home</a>
+  </div>
+
+  <!-- Login Box -->
+  <div class="login-container">
+    <h2>🔐 User Login</h2>
+    <form method="POST" action="{{ url_for('user_login') }}" onsubmit="return validateForm()">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email">
+        <div id="emailError" class="error">❌ Email is required</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
+        <div id="passwordError" class="error">❌ Password is required</div>
+      </div>
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <!-- Register Link -->
+    <div class="register-link">
+      <p>Don’t have an account? <a href="{{ url_for('register') }}">Register</a></p>
+    </div>
+  </div>
+
+  <script>
+    function validateForm() {
+      let valid = true;
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value.trim();
+
+      if (email === "") {
+        document.getElementById("emailError").style.display = "block";
+        valid = false;
+      } else {
+        document.getElementById("emailError").style.display = "none";
+      }
+
+      if (password === "") {
+        document.getElementById("passwordError").style.display = "block";
+        valid = false;
+      } else {
+        document.getElementById("passwordError").style.display = "none";
+      }
+
+      return valid;
+    }
+  </script>
+</body>
+</html>

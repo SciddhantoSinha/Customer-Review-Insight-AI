@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container admin-main py-4">
+  <h2 class="mb-3">🔑 Admin Dashboard</h2>
+
+  {% if not sentiment_available %}
+    <div class="alert alert-warning">
+      <strong>Sentiment analysis is disabled.</strong>
+      To enable it install the Python dependency and restart the app:
+      <code>pip install -r requirements.txt</code>
+    </div>
+  {% endif %}
+
+  <div class="row">
+    <!-- Left navbar -->
+    <div class="col-md-3 mb-3">
+      <div class="list-group" id="adminTabs" role="tablist">
+        <button class="list-group-item list-group-item-action active" data-bs-toggle="pill" data-bs-target="#reviews" type="button" role="tab">Reviews</button>
+        <button class="list-group-item list-group-item-action" data-bs-toggle="pill" data-bs-target="#users" type="button" role="tab">Users</button>
+        <button class="list-group-item list-group-item-action" data-bs-toggle="pill" data-bs-target="#analytics" type="button" role="tab">Analytics</button>
+      </div>
+    </div>
+
+    <!-- Middle: content -->
+    <div class="col-md-7 mb-3">
+      <div class="tab-content">
+        <!-- Reviews -->
+        <div class="tab-pane fade show active" id="reviews" role="tabpanel">
+          <h5 class="mb-3">All Reviews</h5>
+
+          {% if reviews %}
+            <div class="reviews-list">
+              {% for r in reviews %}
+                <div class="card mb-3 review-card touchable" tabindex="0" aria-pressed="false" data-review-id="{{ loop.index0 }}">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <p class="mb-1"><strong>{{ r.email }}</strong></p>
+                        <p class="mb-1 text-muted small">{{ r.uploaded_at }}</p>
+                      </div>
+                      <div class="text-end">
+                        {% if r.sentiment == 'positive' %}
+                          <span class="badge badge-sentiment badge-positive">Positive</span>
+                        {% elif r.sentiment == 'negative' %}
+                          <span class="badge badge-sentiment badge-negative">Negative</span>
+                        {% else %}
+                          <span class="badge badge-sentiment badge-neutral">Neutral</span>
+                        {% endif %}
+                        {% if r.confidence is not none %}
+                          <div class="small text-muted">{{ '%.1f' % r.confidence }}%</div>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    <hr class="my-2">
+
+                    <p class="mb-2 review-text">{{ r.review_text }}</p>
+
+                    {% if r.filename %}
+                      <p class="mb-0 file-line">📎 <em>{{ r.filename }}</em></p>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No reviews submitted yet.</p>
+          {% endif %}
+        </div>
+
+        <!-- Users -->
+        <div class="tab-pane fade" id="users" role="tabpanel">
+          <h5 class="mb-3">Registered Users</h5>
+          {% if users %}
+            <ul class="list-group">
+              {% for u in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ u.username }}</strong><br>
+                    <small class="text-muted">{{ u.email }}</small>
+                  </div>
+                  <span class="badge bg-secondary rounded-pill">ID {{ u.id }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No users registered yet.</p>
+          {% endif %}
+        </div>
+
+        <!-- Analytics -->
+        <div class="tab-pane fade" id="analytics" role="tabpanel">
+          <h5 class="mb-3">Analytics</h5>
+          <button id="refreshBtn" class="btn btn-primary me-2">Refresh Sentiment</button>
+          <button id="clearPicksBtn" class="btn btn-outline-secondary">Clear Highlights</button>
+          <div id="analyticsStatus" class="small text-muted mt-2">Click <strong>Refresh Sentiment</strong> to recompute and update the chart and badges.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: chart -->
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 chart-card">
+        <h6 class="mb-2">Sentiment Summary</h6>
+        <div style="position:relative;height:200px;">
+          <canvas id="sentimentChart"></canvas>
+        </div>
+
+        <div class="mt-3">
+          <p class="mb-1"><strong>Positive:</strong> <span id="posCount">0</span></p>
+          <p class="mb-1"><strong>Neutral:</strong> <span id="neuCount">0</span></p>
+          <p class="mb-1"><strong>Negative:</strong> <span id="negCount">0</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- small & short logout button bottom-right -->
+  <a href="{{ url_for('logout') }}" class="btn btn-sm btn-danger admin-logout">Logout</a>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const chartData = {{ chart_data | tojson }};
+  // Ensure colors/labels order: Positive (green), Neutral (silver), Negative (red)
+  const pos = chartData.positive || 0;
+  const neu = chartData.neutral || 0;
+  const neg = chartData.negative || 0;
+
+  document.addEventListener("DOMContentLoaded", function(){
+    // Update counts
+    const posEl = document.getElementById('posCount');
+    const neuEl = document.getElementById('neuCount');
+    const negEl = document.getElementById('negCount');
+    if(posEl) posEl.innerText = pos;
+    if(neuEl) neuEl.innerText = neu;
+    if(negEl) negEl.innerText = neg;
+
+    // Create a donut chart with clear colored legend labels
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    window.sentimentChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{
+          data: [pos, neu, neg],
+          backgroundColor: ['#28a745', '#c0c0c0', '#dc3545'],
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '55%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              color: '#111827',       // dark text so names are visible
+              usePointStyle: true,
+              padding: 10
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = (pos + neu + neg) || 1;
+                const pct = ((value / total) * 100).toFixed(1);
+                return label + ': ' + value + ' (' + pct + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Persisted selection logic (unchanged)
+    const STORAGE_KEY = 'review_picks_v1';
+    let saved = [];
+    try { const raw = localStorage.getItem(STORAGE_KEY); saved = raw ? JSON.parse(raw) : []; } catch(e){ saved = []; }
+
+    const persist = (arr) => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {} };
+
+    const restorePicks = () => {
+      const cards = document.querySelectorAll('.review-card.touchable');
+      cards.forEach(card => {
+        const rid = card.getAttribute('data-review-id');
+        if (saved.includes(rid)) card.classList.add('selected');
+        else card.classList.remove('selected');
+      });
+    };
+    restorePicks();
+
+    const cards = document.querySelectorAll('.review-card.touchable');
+    cards.forEach(card => {
+      card.style.cursor = 'default';
+      const toggle = () => {
+        const id = card.getAttribute('data-review-id');
+        card.classList.toggle('selected');
+        const idx = saved.indexOf(id);
+        if (idx === -1) saved.push(id); else saved.splice(idx, 1);
+        persist(saved);
+      };
+      card.addEventListener('click', (e) => { if (e.target.tagName.toLowerCase() === 'a') return; toggle(); });
+      card.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); } });
+    });
+
+    const clearBtn = document.getElementById('clearPicksBtn');
+    if (clearBtn) clearBtn.addEventListener('click', () => { saved = []; persist(saved); restorePicks(); });
+
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        refreshBtn.disabled = true;
+        refreshBtn.innerText = 'Refreshing...';
+        setTimeout(() => { location.reload(); }, 450);
+      });
+    }
+  });
+</script>
+{% endblock %}

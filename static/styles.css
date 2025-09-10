@@ -1,0 +1,580 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+nav {
+  background: #333;
+  color: #fff;
+  padding: 10px;
+}
+nav a {
+  color: #fff;
+  margin-right: 10px;
+  text-decoration: none;
+}
+h1, h2 {
+  color: #333;
+}
+form {
+  margin: 20px 0;
+}
+button {
+  padding: 5px 15px;
+  background: #4caf50;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background: #45a049;
+}
+.success { color: green; }
+.danger { color: red; }
+.info { color: blue; }
+
+/* Home Page Layout */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  min-height: 80vh;
+}
+
+.home-left {
+  width: 50%;
+  padding: 20px;
+}
+
+.home-left h1 {
+  font-size: 2.5em;
+  color: #333;
+}
+
+.home-left p {
+  font-size: 1.1em;
+  margin-top: 15px;
+  color: #555;
+}
+
+.home-img {
+  margin-top: 20px;
+  max-width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.home-right {
+  width: 40%;
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.home-right h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.btn {
+  display: block;
+  margin: 10px auto;
+  padding: 12px 25px;
+  background: #4cafef;
+  color: #fff;
+  font-size: 1em;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 70%;
+}
+
+.btn:hover {
+  background: #2196f3;
+  transform: scale(1.05);
+}
+
+.btn.secondary {
+  background: #4caf50;
+}
+
+.btn.secondary:hover {
+  background: #43a047;
+}
+
+/* Admin Login */
+.login-container {
+  width: 350px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #444;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.footer-img {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.footer-img img {
+  width: 120px;
+  opacity: 0.85;
+  transition: transform 0.3s ease;
+}
+
+.footer-img img:hover {
+  transform: scale(1.1);
+}
+
+/* Admin Dashboard */
+.dashboard-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 250px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #4cafef;
+}
+
+/* Backgrounds */
+.auth-bg {
+  background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-bg {
+  background: url('https://images.unsplash.com/photo-1503264116251-35a269479413') no-repeat center center/cover;
+  min-height: 100vh;
+  padding: 60px 20px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+/* Auth Forms */
+.login-container {
+  width: 380px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #444;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.login-form .btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #4cafef, #2196f3);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-form .btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.alt-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.alt-link a {
+  color: #2196f3;
+  font-weight: bold;
+}
+
+/* Dashboard */
+.dashboard-container h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 250px;
+  background: rgba(255,255,255,0.9);
+  padding: 20px;
+  border-radius: 15px;
+  color: #222;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* ---------- YOUR ORIGINAL CSS (kept as-is) ---------- */
+/* (Paste your original styles.css contents above this line in your project) */
+
+/* ---------- Added styles for admin sentiment UI ---------- */
+
+/* Review card styling (keeps it neat and readable) */
+.review-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #222;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Sentiment badges */
+.badge-sentiment {
+  padding: 6px 10px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-left: 6px;
+}
+.badge-positive { background: linear-gradient(45deg,#28a745,#2ecc71); }
+.badge-negative { background: linear-gradient(45deg,#dc3545,#e74c3c); }
+.badge-neutral  { background: linear-gradient(45deg,#b0b0b0,#cfcfcf); color: #000; }
+
+/* Responsive tweaks for admin layout */
+@media (max-width: 768px) {
+  .review-card { margin-bottom: 12px; }
+  .col-md-3, .col-md-6 { margin-bottom: 20px; }
+}
+
+/* ----------------- ADMIN SENTIMENT UI ENHANCEMENTS ------------------ */
+
+/* Make review cards longer and more visually prominent */
+.reviews-list { display: flex; flex-direction: column; gap: 14px; }
+.review-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(6, 10, 20, 0.12);
+  transition: transform 240ms ease, box-shadow 240ms ease, background 240ms ease, border 240ms ease;
+  min-height: 120px;         /* taller */
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,245,245,0.98));
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* hover subtle lift (still keep cursor default) */
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(6, 10, 20, 0.15);
+}
+
+/* Selected style (click/tap) — color shift + glow */
+.review-card.selected {
+  transform: scale(1.02);
+  border: 1px solid rgba(40,167,69,0.28);
+  box-shadow: 0 16px 42px rgba(40,167,69,0.12);
+  background: linear-gradient(135deg, rgba(255,255,255,1), rgba(235,255,243,0.95));
+}
+
+/* make sure cursor doesn't look like a pointer */
+.review-card, .review-card * { cursor: default !important; }
+
+/* review text line-height and spacing */
+.review-text {
+  line-height: 1.5;
+  color: #1f2937;
+  font-size: 0.98rem;
+}
+
+/* file-line style */
+.file-line { color: #444; font-size: 0.9rem; }
+
+/* Sentiment badges (kept but refined) */
+.badge-sentiment {
+  padding: 7px 11px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: inline-block;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+.badge-positive { background: linear-gradient(45deg,#28a745,#2ecc71); }
+.badge-negative { background: linear-gradient(45deg,#dc3545,#e74c3c); }
+.badge-neutral  { background: linear-gradient(45deg,#b0b0b0,#cfcfcf); color: #000; }
+
+/* sticky summary card (right column) */
+.sticky-summary {
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(2,6,23,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,250,0.95));
+}
+
+/* Responsive: on small screens stack the columns neatly */
+@media (max-width: 991px) {
+  .sticky-summary { margin-top: 20px; position: static; }
+  .review-card { min-height: 110px; }
+}
+
+/* Small aesthetic: ensure cards and chart contrast nicely on overlay */
+.container .card, .container .review-card {
+  background-clip: padding-box;
+}
+
+/* small accessibility improvement */
+.review-card:focus {
+  outline: 3px solid rgba(37,99,235,0.12);
+  outline-offset: 3px;
+}
+
+/* ---------------- ADMIN DASHBOARD ONLY STYLES ---------------- */
+
+/* Admin background wrapper (image supplied by you) */
+.admin-bg-wrap {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* dark translucent overlay for readability */
+.admin-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.55); /* keep overlay so text is readable */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* keep main content above overlay and use light text for contrast */
+.admin-main { position: relative; z-index: 2; color: #ffffff; }
+
+/* Slightly lighter text variants for headings inside admin */
+.text-white-90 { color: rgba(255,255,255,0.92); }
+.text-white-75 { color: rgba(255,255,255,0.75); }
+
+/* Review cards — elongated and contrasty */
+.reviews-list { display: flex; flex-direction: column; gap: 14px; }
+.review-card {
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(2,6,23,0.4);
+  transition: transform 240ms ease, box-shadow 240ms ease, background 240ms ease, border 240ms ease;
+  min-height: 140px;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246,246,246,0.96));
+  border: 1px solid rgba(0,0,0,0.06);
+  color: #111827;
+}
+
+/* hover subtle lift */
+.review-card:hover { transform: translateY(-6px); box-shadow: 0 14px 44px rgba(2,6,23,0.48); }
+
+/* Selected style */
+.review-card.selected {
+  transform: scale(1.02);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  box-shadow: 0 22px 54px rgba(99, 102, 241, 0.14);
+  background: linear-gradient(135deg, rgba(255,255,255,1), rgba(241,246,255,0.98));
+}
+
+/* ensure cursor is normal */
+.review-card, .review-card * { cursor: default !important; }
+
+/* review text and metadata */
+.review-text { line-height: 1.5; color: #111827; font-size: 0.98rem; }
+.file-line { color: #444; font-size: 0.9rem; }
+
+/* Sentiment badges refined */
+.badge-sentiment {
+  padding: 7px 11px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: inline-block;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+.badge-positive { background: linear-gradient(45deg,#28a745,#2ecc71); }
+.badge-negative { background: linear-gradient(45deg,#dc3545,#e74c3c); }
+.badge-neutral  { background: linear-gradient(45deg,#b0b0b0,#cfcfcf); color: #000; }
+
+/* Chart card visuals */
+.chart-card {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.36);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,249,250,0.96));
+  color: #111827;
+}
+
+/* Admin bottom-right logout small button */
+.admin-logout {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.36);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .admin-bg-wrap { background-attachment: scroll; }
+  .admin-logout { right: 12px; bottom: 12px; }
+  .chart-card { margin-top: 20px; }
+  .review-card { min-height: 110px; }
+}
+
+/* ---------------- ADMIN (no background) ---------------- */
+
+/* Main admin container uses normal page background (no image) */
+.admin-main { position: relative; z-index: 2; color: #111827; }
+
+/* Review cards — elongated and contrasty */
+.reviews-list { display: flex; flex-direction: column; gap: 12px; }
+.review-card {
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  min-height: 130px;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border: 1px solid rgba(0,0,0,0.04);
+  color: #111827;
+}
+.review-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+
+.review-card.selected {
+  transform: scale(1.01);
+  border: 1px solid rgba(16,185,129,0.2);
+  box-shadow: 0 16px 40px rgba(16,185,129,0.08);
+  background: linear-gradient(135deg,#ffffff,#f0fff6);
+}
+
+/* ensure cursor appears normal (no pointer) */
+.review-card, .review-card * { cursor: default !important; }
+
+.review-text { line-height: 1.5; color: #111827; font-size: 0.98rem; }
+.file-line { color: #444; font-size: 0.9rem; }
+
+/* Sentiment badges */
+.badge-sentiment {
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: inline-block;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+.badge-positive { background: linear-gradient(45deg,#28a745,#2ecc71); }
+.badge-negative { background: linear-gradient(45deg,#dc3545,#e74c3c); }
+.badge-neutral  { background: linear-gradient(45deg,#b0b0b0,#cfcfcf); color: #000; }
+
+/* Chart card visuals */
+.chart-card {
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  background: linear-gradient(180deg,#ffffff,#fafafa);
+  color: #111827;
+}
+
+/* Admin bottom-right logout small and short */
+.admin-logout {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 9999;
+  border-radius: 8px;
+  padding: 6px 8px;   /* tightened */
+  font-size: 0.78rem; /* smaller text */
+  min-width: auto;    /* do not stretch */
+  width: auto;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* small responsive */
+@media (max-width: 991px) {
+  .admin-logout { right: 10px; bottom: 10px; }
+  .chart-card { margin-top: 18px; }
+  .review-card { min-height: 110px; }
+}
